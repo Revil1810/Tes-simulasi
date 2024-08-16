@@ -8,7 +8,8 @@ const fetchAndUpdateChart = (chartId, token) => {
                 label: `${token} Price (USD)`,
                 data: [],
                 borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
+                borderWidth: 1,
+                fill: false
             }]
         },
         options: {
@@ -41,7 +42,7 @@ const fetchAndUpdateChart = (chartId, token) => {
                     updateChart(price);
                 }
             });
-    }, 60000);
+    }, 60000); // Update every minute
 };
 
 // Call the function for each token
@@ -50,6 +51,3 @@ fetchAndUpdateChart('ethereumChart', 'ethereum');
 fetchAndUpdateChart('tetherChart', 'tether');  // USDT
 fetchAndUpdateChart('binancecoinChart', 'binancecoin');  // BNB
 fetchAndUpdateChart('solanaChart', 'solana');  // Solana
-
-// Note: IDR (Indonesian Rupiah) may not be available on CoinGecko API in this form
-// Use a different API if necessary for IDR or simulate it with other means
