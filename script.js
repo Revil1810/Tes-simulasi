@@ -1,4 +1,5 @@
-document.getElementById("loginForm").addEventListener("submit", function(event) {
+// Menangani login
+document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -7,9 +8,11 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     localStorage.setItem('username', username);
     localStorage.setItem('password', password);
 
-    alert('Login Successful');
+    // Arahkan ke halaman transisi
+    window.location.href = 'transition.html';
 });
 
-document.getElementById("registerBtn").addEventListener("click", function() {
+// Menangani pendaftaran
+document.getElementById('registerBtn').addEventListener('click', function() {
     window.location.href = 'register.html'; // Arahkan ke halaman pendaftaran
 });
