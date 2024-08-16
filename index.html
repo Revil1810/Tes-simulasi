@@ -3,26 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First Website</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Token Simulator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to My First Website</h1>
-    <p>This is a simple website built using Termux on an Android phone.</p>
-    <button id="clickMe">Click Me!</button>
+    <h1>Token Simulator</h1>
+    <h2>Grafik Harga Token</h2>
+    <div id="charts">
+        <canvas id="bitcoinChart" width="400" height="200"></canvas>
+        <canvas id="ethereumChart" width="400" height="200"></canvas>
+        <canvas id="usdtChart" width="400" height="200"></canvas>
+        <canvas id="bnbChart" width="400" height="200"></canvas>
+        <canvas id="solanaChart" width="400" height="200"></canvas>
+    </div>
+
+    <h2>Login</h2>
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<h2>Grafik Harga Token</h2>
-<canvas id="priceChart" width="400" height="200"></canvas>
-
-<h2>Login</h2>
-<form id="loginForm">
-    <input type="text" id="username" placeholder="Username" required>
-    <input type="password" id="password" placeholder="Password" required>
-    <button type="submit">Login</button>
-</form>
-
-
