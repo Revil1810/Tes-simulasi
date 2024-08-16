@@ -1,25 +1,72 @@
-function updateCharts() {
-    fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,binancecoin,solana&vs_currencies=usd')
-        .then(response => response.json())
-        .then(data => {
-            // Update existing charts with new data
-            bitcoinChart.data.datasets[0].data = [data.bitcoin.usd];
-            bitcoinChart.update();
+document.getElementById("clickMe").addEventListener("click", function() {
+    alert("Hello! You clicked the button.");
+});
 
-            ethereumChart.data.datasets[0].data = [data.ethereum.usd];
-            ethereumChart.update();
+// Data Dummy untuk Grafik
+const data = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+    datasets: [{
+        label: 'Harga Token',
+        data: [10, 20, 15, 25, 30],
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+        fill: false
+    }]
+};
 
-            usdtChart.data.datasets[0].data = [data.tether.usd];
-            usdtChart.update();
+const config = {
+    type: 'line',
+    data: data,
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+};
 
-            bnbChart.data.datasets[0].data = [data.binancecoin.usd];
-            bnbChart.update();
+const priceChart = new Chart(
+    document.getElementById('priceChart'),
+    config
+);
+async function fetchTokenPrices() {
+    try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
+        const data = await response.json();
 
-            solanaChart.data.datasets[0].data = [data.solana.usd];
-            solanaChart.update();
-        })
-        .catch(error => console.error('Error fetching data:', error));
+        const labels = Object.keys(data);
+        const prices = labels.map(token => data[token].usd);
+
+        const updatedData = {
+            labels: labels,
+            datasets: [{
+                label: 'Harga Token',
+                data: prices,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        };
+
+        priceChart.data = updatedData;
+        priceChart.update();
+    } catch (error) {
+        console.error('Error fetching token prices:', error);
+    }
 }
 
-// Update every 10 seconds
-setInterval(updateCharts, 10000);
+fetchTokenPrices();
+
+
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    // Simpan data pengguna
+    localStorage.setItem('username', username);
+    localStorage.setItem('password', password);
+
+    alert('Login Successful');
+});
