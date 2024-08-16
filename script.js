@@ -1,44 +1,55 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const ctx = document.getElementById('priceChart').getContext('2d');
-    const priceChart = new Chart(ctx, {
+const fetchAndUpdateChart = (chartId, token) => {
+    const ctx = document.getElementById(chartId).getContext('2d');
+    const chart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: [],
             datasets: [{
-                label: 'Token Price',
+                label: `${token} Price (USD)`,
                 data: [],
                 borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1
             }]
         },
         options: {
-            responsive: true,
             scales: {
                 x: {
-                    beginAtZero: true
+                    type: 'time',
+                    time: {
+                        unit: 'minute'
+                    }
                 },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: false
                 }
             }
         }
     });
 
-    async function fetchTokenPrices() {
-        try {
-            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
-            const data = await response.json();
-            const labels = Object.keys(data);
-            const prices = labels.map(token => data[token].usd);
+    const updateChart = (price) => {
+        chart.data.labels.push(new Date());
+        chart.data.datasets[0].data.push(price);
+        chart.update();
+    };
 
-            priceChart.data.labels = labels;
-            priceChart.data.datasets[0].data = prices;
-            priceChart.update();
-        } catch (error) {
-            console.error('Error fetching token prices:', error);
-        }
-    }
+    setInterval(() => {
+        fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${token}&vs_currencies=usd`)
+            .then(response => response.json())
+            .then(data => {
+                const price = data[token]?.usd;
+                if (price !== undefined) {
+                    updateChart(price);
+                }
+            });
+    }, 60000);
+};
 
-    fetchTokenPrices();
-    setInterval(fetchTokenPrices, 10000); // Update every 10 seconds
-});
+// Call the function for each token
+fetchAndUpdateChart('bitcoinChart', 'bitcoin');
+fetchAndUpdateChart('ethereumChart', 'ethereum');
+fetchAndUpdateChart('tetherChart', 'tether');  // USDT
+fetchAndUpdateChart('binancecoinChart', 'binancecoin');  // BNB
+fetchAndUpdateChart('solanaChart', 'solana');  // Solana
+
+// Note: IDR (Indonesian Rupiah) may not be available on CoinGecko API in this form
+// Use a different API if necessary for IDR or simulate it with other means
