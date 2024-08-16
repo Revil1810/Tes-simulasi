@@ -7,14 +7,28 @@ body {
     padding: 20px;
 }
 
-h1 {
+h1, h2 {
     color: #007BFF;
+}
+
+h1 {
     font-size: 2.5em;
 }
 
 h2 {
-    color: #555;
     font-size: 1.5em;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: calc(100% - 22px); /* Menyesuaikan lebar input */
 }
 
 button {
@@ -30,20 +44,13 @@ button:hover {
     background-color: #0056b3;
 }
 
-form {
-    margin-top: 20px;
+footer {
+    margin-top: 30px;
+    font-size: 1em;
 }
 
-input[type="text"], input[type="password"] {
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: calc(100% - 22px); /* Menyesuaikan lebar input */
-}
-
-@media (min-width: 600px) {
-    input[type="text"], input[type="password"] {
-        width: 300px; /* Lebar tetap pada layar yang lebih besar */
-    }
+.dev-name {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    color: #007BFF;
 }
