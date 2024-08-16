@@ -1,3 +1,4 @@
+/* Reset margin dan padding untuk body */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -7,22 +8,26 @@ body {
     padding: 20px;
 }
 
+/* Styling untuk judul halaman */
 h1 {
     color: #007BFF;
 }
 
-button {                                                       
+/* Styling untuk tombol */
+button {
     padding: 10px 20px;
-    background-color: #007BFF;                                 
+    background-color: #007BFF;
     color: #fff;
     border: none;
     cursor: pointer;
 }
 
+/* Styling ketika tombol di-hover */
 button:hover {
     background-color: #0056b3;
 }
 
+/* Styling untuk kontainer grafik */
 #charts {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -30,11 +35,27 @@ button:hover {
     padding: 20px;
 }
 
+/* Styling untuk elemen canvas */
 canvas {
     max-width: 100%;
     height: auto;
 }
 
+/* Styling untuk form */
 form {
     margin-top: 20px;
+}
+
+/* Styling untuk input dan placeholder form */
+input {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: calc(100% - 24px);
+}
+
+/* Styling untuk placeholder */
+input::placeholder {
+    color: #aaa;
 }

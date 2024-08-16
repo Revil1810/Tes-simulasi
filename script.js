@@ -1,72 +1,57 @@
-// Menghandle klik button (bila ada)
-document.getElementById("clickMe")?.addEventListener("click", function() {
-    alert("Hello! You clicked the button.");
-});
-
-// Data Dummy untuk Grafik
-const bitcoinData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-    datasets: [{
-        label: 'Harga Bitcoin',
-        data: [10000, 12000, 11500, 13000, 14000],
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
-        fill: false
-    }]
-};
-
-const ethereumData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-    datasets: [{
-        label: 'Harga Ethereum',
-        data: [2000, 2500, 2300, 2700, 3000],
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
-        fill: false
-    }]
-};
-
-// Membuat Grafik
-const bitcoinChart = new Chart(
-    document.getElementById('bitcoinChart'),
-    {
-        type: 'line',
-        data: bitcoinData,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+const config = {
+    type: 'line',
+    data: data,
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
             }
         }
     }
+};
+
+const priceChart = new Chart(
+    document.getElementById('priceChart'),
+    config
 );
 
-const ethereumChart = new Chart(
-    document.getElementById('ethereumChart'),
-    {
-        type: 'line',
-        data: ethereumData,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+async function fetchTokenPrices() {
+    try {
+        const apiKey = '779a6ed1-d86f-4f61-815f-9dd23cd7343b'; // API Key Anda
+        const response = await fetch('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=5000', {
+            headers: {
+                'X-CMC_PRO_API_KEY': apiKey
             }
-        }
+        });
+        const data = await response.json();
+
+        const tokens = ['bitcoin', 'ethereum', 'tether', 'usd-coin', 'binancecoin', 'solana'];
+        const labels = tokens;
+        const prices = tokens.map(token => {
+            const tokenData = data.data.find(item => item.slug === token);
+            return tokenData ? tokenData.quote.USD.price : 0;
+        });
+
+        const updatedData = {
+            labels: labels,
+            datasets: [{
+                label: 'Harga Token',
+                data: prices,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        };
+
+        priceChart.data = updatedData;
+        priceChart.update();
+    } catch (error) {
+        console.error('Error fetching token prices:', error);
     }
-);
+}
 
-// Tambahkan untuk USDT, BNB, dan Solana seperti di atas
+// Fetch token prices every 10 seconds
+setInterval(fetchTokenPrices, 10000); // 10000 milliseconds = 10 seconds
 
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    // Simpan data pengguna
-    localStorage.setItem('username', username);
-    localStorage.setItem('password', password);
-
-    alert('Login Successful');
-});
+// Call the function once to populate the chart initially
+fetchTokenPrices();
